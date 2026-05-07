@@ -4,79 +4,165 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OSINT - CODEXNITIN</title>
+
 <style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:monospace;
+}
+
 body{
 background:black;
 color:#00ff88;
-font-family:monospace;
-padding:40px;
+padding:30px;
 }
-input,select{
+
+h1{
+font-size:42px;
+margin-bottom:30px;
+text-shadow:0 0 20px #00ff88;
+}
+
+.tool{
+border:1px solid #00ff88;
+padding:25px;
+margin-bottom:30px;
+box-shadow:0 0 20px rgba(0,255,136,0.2);
+}
+
+.tool h2{
+margin-bottom:15px;
+}
+
+input{
 width:100%;
-padding:15px;
-margin-top:15px;
+padding:14px;
 background:black;
 border:1px solid #00ff88;
 color:#00ff88;
+margin-top:10px;
 }
+
 button{
-padding:12px 25px;
-margin-top:20px;
+margin-top:15px;
+padding:12px 24px;
 background:black;
-color:#00ff88;
 border:1px solid #00ff88;
+color:#00ff88;
 cursor:pointer;
 }
-pre{
+
+.result-box{
 margin-top:20px;
-white-space:pre-wrap;
+border:1px solid #00ff88;
+padding:15px;
+box-shadow:0 0 15px rgba(0,255,136,0.3);
 }
+
+.footer{
+text-align:center;
+padding-top:30px;
+border-top:1px solid #00ff88;
+margin-top:50px;
+}
+
 </style>
 </head>
+
 <body>
 
 <h1>OSINT TOOLS</h1>
 
-<select id="tool" onchange="showTool()">
-<option value="">Select Tool</option>
-<option value="number">Number To Info</option>
-<option value="vehicle">Vehicle Info</option>
-</select>
+<div class="tool">
 
-<div id="numberBox" style="display:none;">
-<input type="text" id="num" placeholder="Enter number">
-<button onclick="numberInfo()">Search</button>
-<pre id="numResult"></pre>
+<h2>📱 Number To Info</h2>
+
+<input type="text" id="number" placeholder="Enter number">
+
+<button onclick="searchNumber()">Search</button>
+
+<div id="numberResult"></div>
+
 </div>
 
-<div id="vehicleBox" style="display:none;">
+<div class="tool">
+
+<h2>🚗 Vehicle Info</h2>
+
 <input type="text" id="vehicle" placeholder="Enter vehicle number">
-<button onclick="vehicleInfo()">Search</button>
-<pre id="vehicleResult"></pre>
+
+<button onclick="searchVehicle()">Search</button>
+
+<div id="vehicleResult"></div>
+
+</div>
+
+<div class="footer">
+© CODEXNITIN — All Rights Reserved
 </div>
 
 <script>
-function showTool(){
-const val=document.getElementById('tool').value;
-document.getElementById('numberBox').style.display='none';
-document.getElementById('vehicleBox').style.display='none';
-if(val==='number') document.getElementById('numberBox').style.display='block';
-if(val==='vehicle') document.getElementById('vehicleBox').style.display='block';
+
+async function searchNumber(){
+
+const number=document.getElementById("number").value;
+
+const response=await fetch(`https://toxic-num-info.vercel.app/?number=${number}`);
+
+const data=await response.json();
+
+let result=document.getElementById("numberResult");
+
+if(data.success===false){
+
+result.innerHTML=`
+<div class="result-box">
+No Data Found
+</div>
+`;
+
+return;
 }
 
-async function numberInfo(){
-const number=document.getElementById('num').value;
-const res=await fetch(`https://toxic-num-info.vercel.app/?number=${number}`);
-const data=await res.text();
-document.getElementById('numResult').innerHTML=data;
+let html='';
+
+data.result.forEach(item=>{
+
+html += `
+<div class="result-box">
+<p><b>Name:</b> ${item.name}</p>
+<p><b>Father Name:</b> ${item.fname}</p>
+<p><b>Number:</b> ${item.num}</p>
+<p><b>Circle:</b> ${item.circle}</p>
+<p><b>Address:</b> ${item.address}</p>
+</div>
+`;
+
+});
+
+result.innerHTML=html;
+
 }
 
-async function vehicleInfo(){
-const vehicle=document.getElementById('vehicle').value;
-const res=await fetch(`https://devil-api.elementfx.com/api/get-info.php?key=KING-3SIHBV&vechile=${vehicle}`);
-const data=await res.text();
-document.getElementById('vehicleResult').innerHTML=data;
+async function searchVehicle(){
+
+const vehicle=document.getElementById("vehicle").value;
+
+const response=await fetch(`https://devil-api.elementfx.com/api/get-info.php?key=KING-3SIHBV&vechile=${vehicle}`);
+
+const data=await response.text();
+
+document.getElementById("vehicleResult").innerHTML=`
+<div class="result-box">
+${data}
+</div>
+`;
+
 }
+
 </script>
 
 </body>
