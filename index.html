@@ -362,46 +362,28 @@ footer{
 <option value="">-- Select OSINT Tool --</option>
 <option value="number">Number To Info</option>
 <option value="vehicle">Vehicle Info</option>
-<option value="ip">IP Lookup</option>
-<option value="dns">DNS Lookup</option>
-<option value="metadata">Metadata Checker</option>
+
 </select>
 
 <!-- NUMBER TOOL -->
 <div id="numberTool" class="tool-box" style="display:none;margin-top:30px;">
 <h3 style="margin-bottom:15px;">📱 Number To Info</h3>
-<input type="text" placeholder="Enter number here without country code
-Example: 9998765423" style="width:100%;padding:15px;background:black;color:#00ff88;border:1px solid #00ff88;outline:none;">
-<button class="tool-btn">Search</button>
+<input type="text" id="numberInput" placeholder="Enter number without country code" style="width:100%;padding:15px;background:black;color:#00ff88;border:1px solid #00ff88;outline:none;">
+<button class="tool-btn" onclick="searchNumber()">Search</button>
+<pre id="numberResult" style="margin-top:20px;color:#00ff88;white-space:pre-wrap;"></pre>
+</div>
 </div>
 
 <!-- VEHICLE TOOL -->
 <div id="vehicleTool" class="tool-box" style="display:none;margin-top:30px;">
 <h3 style="margin-bottom:15px;">🚗 Vehicle Info</h3>
-<input type="text" placeholder="Enter vehicle number" style="width:100%;padding:15px;background:black;color:#00ff88;border:1px solid #00ff88;outline:none;">
-<button class="tool-btn">Search</button>
+<input type="text" id="vehicleInput" placeholder="Enter vehicle number" style="width:100%;padding:15px;background:black;color:#00ff88;border:1px solid #00ff88;outline:none;">
+<button class="tool-btn" onclick="searchVehicle()">Search</button>
+<pre id="vehicleResult" style="margin-top:20px;color:#00ff88;white-space:pre-wrap;"></pre>
+</div>
 </div>
 
-<!-- IP TOOL -->
-<div id="ipTool" class="tool-box" style="display:none;margin-top:30px;">
-<h3 style="margin-bottom:15px;">🌍 IP Lookup</h3>
-<input type="text" placeholder="Enter IP Address" style="width:100%;padding:15px;background:black;color:#00ff88;border:1px solid #00ff88;outline:none;">
-<button class="tool-btn">Search</button>
-</div>
 
-<!-- DNS TOOL -->
-<div id="dnsTool" class="tool-box" style="display:none;margin-top:30px;">
-<h3 style="margin-bottom:15px;">🌐 DNS Lookup</h3>
-<input type="text" placeholder="Enter domain name" style="width:100%;padding:15px;background:black;color:#00ff88;border:1px solid #00ff88;outline:none;">
-<button class="tool-btn">Search</button>
-</div>
-
-<!-- METADATA TOOL -->
-<div id="metadataTool" class="tool-box" style="display:none;margin-top:30px;">
-<h3 style="margin-bottom:15px;">📂 Metadata Checker</h3>
-<input type="file" style="width:100%;padding:15px;background:black;color:#00ff88;border:1px solid #00ff88;outline:none;">
-<button class="tool-btn">Analyze</button>
-</div>
 
 </div>
 
@@ -484,7 +466,7 @@ function showTool(){
 
 const value = document.getElementById('toolSelect').value;
 
-const tools = ['numberTool','vehicleTool','ipTool','dnsTool','metadataTool'];
+const tools = ['numberTool','vehicleTool'];
 
 tools.forEach(tool => {
     document.getElementById(tool).style.display='none';
@@ -498,16 +480,46 @@ if(value === 'vehicle'){
     document.getElementById('vehicleTool').style.display='block';
 }
 
-if(value === 'ip'){
-    document.getElementById('ipTool').style.display='block';
+
 }
 
-if(value === 'dns'){
-    document.getElementById('dnsTool').style.display='block';
+// NUMBER API
+async function searchNumber(){
+
+const number = document.getElementById('numberInput').value;
+const resultBox = document.getElementById('numberResult');
+
+resultBox.innerHTML = 'Searching...';
+
+try{
+
+const response = await fetch(`https://devil-api.elementfx.com/api/get-info.php?key=KING-3SIHBV&phone=${number}`);
+const data = await response.text();
+
+resultBox.innerHTML = data;
+
+}catch(error){
+resultBox.innerHTML = 'API Error';
+}
 }
 
-if(value === 'metadata'){
-    document.getElementById('metadataTool').style.display='block';
+// VEHICLE API
+async function searchVehicle(){
+
+const vehicle = document.getElementById('vehicleInput').value;
+const resultBox = document.getElementById('vehicleResult');
+
+resultBox.innerHTML = 'Searching...';
+
+try{
+
+const response = await fetch(`https://devil-api.elementfx.com/api/get-info.php?key=KING-3SIHBV&vechile=${vehicle}`);
+const data = await response.text();
+
+resultBox.innerHTML = data;
+
+}catch(error){
+resultBox.innerHTML = 'API Error';
 }
 }
 
