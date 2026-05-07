@@ -1,207 +1,559 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>CodexNitin</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CODEXNITIN</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
+}
+
 body{
-  background:black;
-  color:#00ff00;
-  font-family:monospace;
-  margin:0;
-  padding:20px;
+    background:#000;
+    color:#00ff88;
+    font-family:monospace;
+    overflow-x:hidden;
 }
 
-/* Loading Screen */
-#loader{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:black;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  z-index:9999;
+/* MATRIX BACKGROUND */
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-1;
+    opacity:0.15;
 }
 
-/* Popup */
+/* POPUP */
 #popup{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:black;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:9998;
+    position:fixed;
+    inset:0;
+    background:black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
 }
 
-/* Container */
-.container{
-  max-width:800px;
-  margin:auto;
+.popup-box{
+    border:1px solid #00ff88;
+    padding:35px;
+    text-align:center;
+    background:#050505;
+    width:90%;
+    max-width:420px;
+    box-shadow:0 0 20px #00ff88;
 }
 
+.popup-box h2{
+    margin-bottom:15px;
+    font-size:28px;
+}
+
+.popup-box p{
+    margin-bottom:25px;
+    color:#00ffaa;
+}
+
+.popup-box button{
+    background:black;
+    color:#00ff88;
+    border:1px solid #00ff88;
+    padding:12px 30px;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:16px;
+}
+
+.popup-box button:hover{
+    background:#00ff88;
+    color:black;
+    box-shadow:0 0 20px #00ff88;
+}
+
+/* NAVBAR */
+.navbar{
+    position:fixed;
+    top:0;
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 7%;
+    background:rgba(0,0,0,0.85);
+    border-bottom:1px solid #00ff88;
+    backdrop-filter:blur(8px);
+    z-index:1000;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo img{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    object-fit:cover;
+    border:1px solid #00ff88;
+}
+
+.logo h1{
+    color:#00ff88;
+    font-size:24px;
+}
+
+.nav-links{
+    display:flex;
+    gap:30px;
+}
+
+.nav-links a{
+    color:#00ff88;
+    text-decoration:none;
+    font-size:16px;
+    transition:0.3s;
+}
+
+.nav-links a:hover{
+    text-shadow:0 0 15px #00ff88;
+}
+
+/* HERO */
+.hero{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:120px 20px 50px;
+}
+
+.hero-content h2{
+    font-size:70px;
+    color:#00ff88;
+    text-shadow:0 0 15px #00ff88;
+}
+
+.hero-content h3{
+    margin-top:15px;
+    color:#88ffcc;
+    font-size:22px;
+}
+
+.typing{
+    margin-top:30px;
+    font-size:18px;
+    line-height:2;
+    color:#00ffaa;
+    min-height:100px;
+}
+
+/* SECTIONS */
 .section{
-  margin-top:30px;
+    padding:120px 10%;
 }
 
-h2{
-  border-bottom:1px solid #00ff00;
-  padding-bottom:5px;
+.section-title{
+    font-size:40px;
+    margin-bottom:50px;
+    border-bottom:1px solid #00ff88;
+    padding-bottom:15px;
+    text-shadow:0 0 10px #00ff88;
 }
 
-a{
-  color:#00ff00;
-  text-decoration:none;
-  display:block;
-  margin:10px 0;
+/* OSINT */
+.osint-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
 }
 
-/* Cursor */
-.cursor{
-  display:inline-block;
-  width:10px;
-  background:#00ff00;
-  animation:blink 1s infinite;
+.card{
+    border:1px solid #00ff88;
+    padding:30px;
+    background:#050505;
+    transition:0.3s;
 }
 
-@keyframes blink{
-  50%{background:transparent;}
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 0 25px #00ff88;
 }
 
-/* Button */
-button{
-  background:black;
-  color:#00ff00;
-  border:1px solid #00ff00;
-  padding:10px 20px;
-  cursor:pointer;
+.card i{
+    font-size:35px;
+    margin-bottom:20px;
+}
+
+.card h3{
+    margin-bottom:12px;
+}
+
+/* ABOUT */
+.about-box{
+    border:1px solid #00ff88;
+    padding:35px;
+    line-height:2.3;
+    background:#050505;
+    box-shadow:0 0 20px rgba(0,255,136,0.15);
+}
+
+.about-box span{
+    color:#88ffcc;
+}
+
+/* CONTACT */
+.contact-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:25px;
+}
+
+.contact-links a{
+    border:1px solid #00ff88;
+    padding:18px 30px;
+    color:#00ff88;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    transition:0.3s;
+    background:#050505;
+}
+
+.contact-links a:hover{
+    background:#00ff88;
+    color:black;
+    box-shadow:0 0 20px #00ff88;
+}
+
+.tool-btn{
+    margin-top:20px;
+    padding:12px 28px;
+    background:black;
+    color:#00ff88;
+    border:1px solid #00ff88;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.tool-btn:hover{
+    background:#00ff88;
+    color:black;
+    box-shadow:0 0 20px #00ff88;
+}
+
+.contact-links i{
+    font-size:22px;
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    padding:35px;
+    border-top:1px solid #00ff88;
+    margin-top:80px;
+    color:#88ffcc;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+.hero-content h2{
+    font-size:42px;
+}
+
+.hero-content h3{
+    font-size:18px;
+}
+
+.navbar{
+    padding:15px 5%;
+}
+
+.logo h1{
+    font-size:18px;
+}
+
+.nav-links{
+    gap:15px;
+}
+
+.nav-links a{
+    font-size:13px;
+}
+
+.section-title{
+    font-size:28px;
+}
+
+.typing{
+    font-size:15px;
+}
+
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOADER -->
-<div id="loader">
-<p>Loading CodexNitin...</p>
-<p>Initializing system...</p>
-<p>Access Granted ✅</p>
-</div>
+<!-- MATRIX -->
+<canvas id="matrix"></canvas>
 
 <!-- POPUP -->
 <div id="popup">
-<div style="text-align:center;">
-<h2>> Welcome to our web 💻</h2>
-<p>> Access Granted...</p>
-<button onclick="closePopup()">OK</button>
-</div>
-</div>
-
-<!-- MAIN -->
-<div class="container" id="main" style="display:none;">
-
-<h2 id="typing"></h2><span class="cursor"></span>
-
-<div class="section">
-<p>> Full Name: Nitin Kamboj</p>
-<p>> Location: Haryana, Kurukshetra</p>
-<p>> Education: 11th Passed</p>
-<p>> Current Work: Learning Digital Marketing</p>
-<p>> Interests: Gaming 🎮 | Coding 💻</p>
-<p>> Favorite Language: Python 🐍</p>
-<p>> Status: Learning & Growing 🚀</p>
-<p>> I don’t just use the internet, I learn how it works.</p>
+    <div class="popup-box">
+        <h2>> Welcome to CodexNitin 💻</h2>
+        <p>> Access Granted...</p>
+        <button onclick="enterSite()">ENTER</button>
+    </div>
 </div>
 
-<div class="section">
-<h2>> Skills</h2>
-<p>Python █████████░ 90%</p>
-<p>HTML █████░░░░░ 50%</p>
-<p>CSS ███░░░░░░░ 30%</p>
+<!-- NAVBAR -->
+<nav class="navbar">
+
+<div class="logo">
+<img src="logo.png" alt="logo">
+<h1>CODEXNITIN</h1>
 </div>
 
-<div class="section">
-<h2>> Projects</h2>
-<p>> Cafe Website</p>
-<p>- Simple cafe landing page</p>
+<div class="nav-links">
+<a href="#osint">OSINT</a>
+<a href="#about">About Me</a>
+<a href="#contact">Contact</a>
 </div>
 
-<div class="section">
-<h2>> Live Status</h2>
-<p>> Status: Online 🟢</p>
-<p>> Location: Kurukshetra</p>
-<p>> Mode: Learning</p>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+<div class="hero-content">
+
+<h2>CODEXNITIN</h2>
+<h3>Developer • Learner • Explorer</h3>
+
+<div class="typing" id="typing"></div>
+
+</div>
+</section>
+
+<!-- OSINT -->
+<section class="section" id="osint">
+
+<h2 class="section-title">OSINT</h2>
+
+<div class="about-box">
+
+<label style="display:block;margin-bottom:15px;color:#88ffcc;">Select Tool</label>
+
+<select id="toolSelect" onchange="showTool()" style="width:100%;padding:15px;background:black;color:#00ff88;border:1px solid #00ff88;font-size:16px;outline:none;">
+<option value="">-- Select OSINT Tool --</option>
+<option value="number">Number To Info</option>
+<option value="vehicle">Vehicle Info</option>
+<option value="ip">IP Lookup</option>
+<option value="dns">DNS Lookup</option>
+<option value="metadata">Metadata Checker</option>
+</select>
+
+<!-- NUMBER TOOL -->
+<div id="numberTool" class="tool-box" style="display:none;margin-top:30px;">
+<h3 style="margin-bottom:15px;">📱 Number To Info</h3>
+<input type="text" placeholder="Enter number here without country code
+Example: 9998765423" style="width:100%;padding:15px;background:black;color:#00ff88;border:1px solid #00ff88;outline:none;">
+<button class="tool-btn">Search</button>
 </div>
 
-<div class="section">
-<h2>> Interest Mode</h2>
-<p>> 🎮 Gamer Mode: ON</p>
-<p>> 💻 Coding Mode: Python Learning</p>
+<!-- VEHICLE TOOL -->
+<div id="vehicleTool" class="tool-box" style="display:none;margin-top:30px;">
+<h3 style="margin-bottom:15px;">🚗 Vehicle Info</h3>
+<input type="text" placeholder="Enter vehicle number" style="width:100%;padding:15px;background:black;color:#00ff88;border:1px solid #00ff88;outline:none;">
+<button class="tool-btn">Search</button>
 </div>
 
-<div class="section">
-<h2>> Services</h2>
-<p>> For websites or automation bots, feel free to contact me 🚀</p>
+<!-- IP TOOL -->
+<div id="ipTool" class="tool-box" style="display:none;margin-top:30px;">
+<h3 style="margin-bottom:15px;">🌍 IP Lookup</h3>
+<input type="text" placeholder="Enter IP Address" style="width:100%;padding:15px;background:black;color:#00ff88;border:1px solid #00ff88;outline:none;">
+<button class="tool-btn">Search</button>
 </div>
 
-<div class="section">
-<h2>> Connect</h2>
+<!-- DNS TOOL -->
+<div id="dnsTool" class="tool-box" style="display:none;margin-top:30px;">
+<h3 style="margin-bottom:15px;">🌐 DNS Lookup</h3>
+<input type="text" placeholder="Enter domain name" style="width:100%;padding:15px;background:black;color:#00ff88;border:1px solid #00ff88;outline:none;">
+<button class="tool-btn">Search</button>
+</div>
 
-<a href="https://wa.me/918295420609" target="_blank">
-<i class="fab fa-whatsapp"></i> WhatsApp
+<!-- METADATA TOOL -->
+<div id="metadataTool" class="tool-box" style="display:none;margin-top:30px;">
+<h3 style="margin-bottom:15px;">📂 Metadata Checker</h3>
+<input type="file" style="width:100%;padding:15px;background:black;color:#00ff88;border:1px solid #00ff88;outline:none;">
+<button class="tool-btn">Analyze</button>
+</div>
+
+</div>
+
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+
+<h2 class="section-title">About Me</h2>
+
+<div class="about-box">
+
+<p><span>Name:</span> Nitin</p>
+<p><span>Location:</span> Haryana</p>
+<p><span>Role:</span> Learner & Developer</p>
+<p><span>Current Focus:</span> Python + Web Development</p>
+<p><span>Learning:</span> Digital Marketing & OSINT</p>
+<p><span>Skills:</span> API Development & Automation</p>
+<p><span>Goal:</span> Building tools and websites</p>
+
+</div>
+
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+
+<h2 class="section-title">Contact</h2>
+
+<div class="contact-links">
+
+<a href="https://wa.me/6394690997151" target="_blank">
+<i class="fab fa-whatsapp"></i>
+WhatsApp
 </a>
 
 <a href="https://instagram.com/_nitin_kamboj_07" target="_blank">
-<i class="fab fa-instagram"></i> Instagram
+<i class="fab fa-instagram"></i>
+Instagram
 </a>
 
 <a href="https://t.me/Nitin_710" target="_blank">
-<i class="fab fa-telegram"></i> Telegram
+<i class="fab fa-telegram"></i>
+Telegram
 </a>
 
 </div>
 
-<div class="section">
-<p>> © CodexNitin | All Rights Reserved</p>
-</div>
+</section>
 
-</div>
+<!-- FOOTER -->
+<footer>
+© CODEXNITIN — All Rights Reserved
+</footer>
 
 <script>
 
-// LOADING → POPUP
-setTimeout(()=>{
-  document.getElementById("loader").style.display="none";
-  document.getElementById("popup").style.display="flex";
-},2000);
-
-// CLOSE POPUP → SHOW SITE
-function closePopup(){
-  document.getElementById("popup").style.display="none";
-  document.getElementById("main").style.display="block";
+// POPUP
+function enterSite(){
+    document.getElementById('popup').style.display='none';
 }
 
 // TYPING EFFECT
-const text = `> Accessing CodexNitin...
-> Identity: Nitin
-> Status: Active
-> Role: Developer | Learner`;
+const text = `> Accessing CodexNitin...\n> Identity Verified\n> System Online`;
 
 let i = 0;
-function type(){
-  if(i < text.length){
-    document.getElementById("typing").innerHTML += text.charAt(i);
-    i++;
-    setTimeout(type,30);
-  }
+
+function typing(){
+    if(i < text.length){
+        document.getElementById('typing').innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typing,35);
+    }
 }
-type();
+
+typing();
+
+// OSINT TOOL SWITCH
+function showTool(){
+
+const value = document.getElementById('toolSelect').value;
+
+const tools = ['numberTool','vehicleTool','ipTool','dnsTool','metadataTool'];
+
+tools.forEach(tool => {
+    document.getElementById(tool).style.display='none';
+});
+
+if(value === 'number'){
+    document.getElementById('numberTool').style.display='block';
+}
+
+if(value === 'vehicle'){
+    document.getElementById('vehicleTool').style.display='block';
+}
+
+if(value === 'ip'){
+    document.getElementById('ipTool').style.display='block';
+}
+
+if(value === 'dns'){
+    document.getElementById('dnsTool').style.display='block';
+}
+
+if(value === 'metadata'){
+    document.getElementById('metadataTool').style.display='block';
+}
+}
+
+// MATRIX EFFECT
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+const letters = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const array = letters.split('');
+
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+
+const drops = [];
+
+for(let x = 0; x < columns; x++){
+    drops[x] = 1;
+}
+
+function draw(){
+
+ctx.fillStyle = 'rgba(0,0,0,0.05)';
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle = '#00ff88';
+ctx.font = fontSize + 'px monospace';
+
+for(let i = 0; i < drops.length; i++){
+
+const text = array[Math.floor(Math.random()*array.length)];
+
+ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+if(drops[i]*fontSize > canvas.height && Math.random() > 0.975){
+    drops[i] = 0;
+}
+
+drops[i]++;
+
+}
+}
+
+setInterval(draw,35);
 
 </script>
 
