@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSINT - CODEXNITIN</title>
+<style>
+body{
+background:black;
+color:#00ff88;
+font-family:monospace;
+padding:40px;
+}
+input,select{
+width:100%;
+padding:15px;
+margin-top:15px;
+background:black;
+border:1px solid #00ff88;
+color:#00ff88;
+}
+button{
+padding:12px 25px;
+margin-top:20px;
+background:black;
+color:#00ff88;
+border:1px solid #00ff88;
+cursor:pointer;
+}
+pre{
+margin-top:20px;
+white-space:pre-wrap;
+}
+</style>
+</head>
+<body>
+
+<h1>OSINT TOOLS</h1>
+
+<select id="tool" onchange="showTool()">
+<option value="">Select Tool</option>
+<option value="number">Number To Info</option>
+<option value="vehicle">Vehicle Info</option>
+</select>
+
+<div id="numberBox" style="display:none;">
+<input type="text" id="num" placeholder="Enter number">
+<button onclick="numberInfo()">Search</button>
+<pre id="numResult"></pre>
+</div>
+
+<div id="vehicleBox" style="display:none;">
+<input type="text" id="vehicle" placeholder="Enter vehicle number">
+<button onclick="vehicleInfo()">Search</button>
+<pre id="vehicleResult"></pre>
+</div>
+
+<script>
+function showTool(){
+const val=document.getElementById('tool').value;
+document.getElementById('numberBox').style.display='none';
+document.getElementById('vehicleBox').style.display='none';
+if(val==='number') document.getElementById('numberBox').style.display='block';
+if(val==='vehicle') document.getElementById('vehicleBox').style.display='block';
+}
+
+async function numberInfo(){
+const number=document.getElementById('num').value;
+const res=await fetch(`https://toxic-num-info.vercel.app/?number=${number}`);
+const data=await res.text();
+document.getElementById('numResult').innerHTML=data;
+}
+
+async function vehicleInfo(){
+const vehicle=document.getElementById('vehicle').value;
+const res=await fetch(`https://devil-api.elementfx.com/api/get-info.php?key=KING-3SIHBV&vechile=${vehicle}`);
+const data=await res.text();
+document.getElementById('vehicleResult').innerHTML=data;
+}
+</script>
+
+</body>
+</html>
